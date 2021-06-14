@@ -1,1 +1,1 @@
-convert cisma.png -crop x550+0+200 cisma_crop.png
+convert cisma.png -crop x550+0+200 output/cisma.png
