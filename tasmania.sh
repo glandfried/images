@@ -1,1 +1,1 @@
-convert tasmania.png -quality 50 output/tasmania.png
+convert tasmania.png -resize 600 output/tasmania.png
