@@ -1,5 +1,7 @@
 \documentclass[shownotes,aspectratio=169]{beamer}
 
+\usepackage{tikz}
+\input{tikzlibrarybayesnet.code.tex}
 
 \usepackage{ragged2e} %\justifying
 \usepackage{paracol}
@@ -187,7 +189,7 @@
 \large
 
 \begin{frame}[plain,noframenumbering]
-
+\nopagecolor
 % \begin{textblock}{160}(0,21) \centering
 % \LARGE  \textcolor{black!85}{\rotatebox[origin=tr]{0}{\scalebox{4}{\scalebox{1}[-1]{$p$}}}}
 % \end{textblock}
@@ -255,6 +257,96 @@
 % \begin{textblock}{160}(8,12.9) \centering
 % \fontsize{1}{1} \selectfont \textcolor{black!85}{\scalebox{4}{$|$}}
 % \end{textblock}
+
+
+\end{frame}
+
+\begin{frame}[plain,noframenumbering]
+
+\begin{textblock}{96}(0,4)\centering
+{\includegraphics[width=0.85\textwidth]{../../inti.png}}
+\end{textblock}
+
+\begin{textblock}{160}(96,00)
+\includegraphics[width=0.4\textwidth]{../../pachacuteckoricancha}
+\end{textblock}
+
+\end{frame}
+
+\begin{frame}[plain]
+
+\begin{textblock}{160}(0,3) \centering
+Herramientas periciales para la comparación de modelos causales en competencia \\[0.1cm]
+
+\includegraphics[width=0.5\textwidth]{../../text.jpg}
+\end{textblock}
+
+
+\begin{textblock}{79.6}(0,24)
+\hfill \rotatebox[origin=tr]{-90}{\LARGE  \textcolor{black!85}{\scalebox{4}{\scalebox{1}[-1]{$p$}}}}
+\end{textblock}
+\begin{textblock}{80}(79.6,24)
+\rotatebox[origin=tr]{-90}{\LARGE \textcolor{black!85}{\scalebox{4}{$p$}}}
+\end{textblock}
+\begin{textblock}{60}(75.35,25)
+\rotatebox[origin=tr]{-90}{\textcolor{black!85}{\rotatebox[origin=tr]{0}{\scalebox{4}{$=$}}}}
+\end{textblock}
+\begin{textblock}{159}(0,36.3) \centering
+\LARGE  \textcolor{black!85}{\rotatebox[origin=tr]{90}{\scalebox{3}{\scalebox{1}[-1]{$\text{l}$}}}}
+\end{textblock}
+
+
+% \begin{textblock}{160}(10,25)
+% \includegraphics[width=0.4\textwidth]{../balanza_cerca.png}
+% \end{textblock}
+\begin{textblock}{150}(5,55)
+\begin{figure}[ht!]
+  \centering
+  \scalebox{.9}{
+  \tikz{ %
+        \node[factor] (fr) {} ;
+        \node[const, above=of fr] (nfr) {$f_r$}; %
+	\node[const, above=of nfr] (dfr) {\large $\mathbb{I}(d_j>0)$}; %
+        \node[latent, left=of fr] (d) {$d_j$} ; %
+        \node[factor, left=of d] (fd) {} ;
+        \node[const, above=of fd] (nfd) {$f_d$}; %
+        \node[const, above=of nfd] (dfd) {\large $\delta(d_j=t_{o_j} - t_{o_{j+1}})$}; %
+
+        \node[latent, left=of fd,xshift=-0.9cm] (t) {$t_{o_j}$} ; %
+        \node[factor, left=of t] (ft) {} ;
+        \node[const, above=of ft] (nft) {$f_t$}; %
+        \node[const, above=of nft,xshift=0.5cm] (dft) {\large $\delta(t_{o_j} = \sum_{i} p_i)$}; %
+
+        \node[latent, left=of ft] (p) {$p_i$} ; %
+        \node[factor, left=of p] (fp) {} ;
+        \node[const, above=of fp] (nfp) {$f_p$}; %
+        \node[const, above=of nfp] (dfp) {\large $\N(p_i|s_i,\beta^2)$}; %
+
+        \node[latent, left=of fp] (s) {$s_i$} ; %
+        \node[factor, left=of s] (fs) {} ;
+        \node[const, above=of fs] (nfs) {$f_s$}; %
+        \node[const, above=of nfs] (dfs) {\large $\N(s_i|\mu_i,\sigma^2)$}; %
+
+        \edge[-] {d} {fr};
+	\edge[-] {fd} {d};
+        \edge[-] {fd} {t};
+        \edge[-] {t} {ft};
+        \edge[-] {ft} {p};
+        \edge[-] {p} {fp};
+        \edge[-] {fp} {s};
+        \edge[-] {s} {fs};
+
+        \plate {personas} {(p)(s)(fs)(nfs)(dfp)(dfs)} { $i \in \Omega_{o_j}$}; %
+        \node[invisible, below=of ft, yshift=-0.6cm] (inv_below_e) {};
+	\node[invisible, above=of ft, yshift=1.1cm] (inv_above_e) {};
+	\plate {equipos} {(personas) (t)(ft)(dft) (inv_above_e) (inv_below_e)} { $1 \leq j \leq |o|$}; %
+	\node[invisible, below=of fr, yshift=-0.7cm] (inv_below) {};
+	\node[invisible, above=of fr, yshift=1.1cm] (inv_above) {};
+	\plate {comparaciones} {(fd) (dfd) (d) (fr) (dfr) (inv_below) (inv_above)} {$1 \leq j < |o|$};
+    }
+    }
+\end{figure}
+\end{textblock}
 
 
 \end{frame}

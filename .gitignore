@@ -1,1 +1,42 @@
-output/
+*
+!*/
+
+########################
+# Archivos que NO ignora
+
+!LICENSE
+!license
+
+## Imagenes
+!*.pdf
+!*.png
+!*.jpg
+!*.jpeg
+!*.gif
+!*.svg
+
+## Latex
+!*.tex
+*-concordance.tex
+!*.bib
+!*.bst
+!*.sty
+!*.cls
+
+## Codigo
+!*.jl
+!*.py
+!*.R
+!*.c
+!*.sql
+
+## Texto
+!*.md
+!*.txt
+!*.sh
+
+## Otros
+!makefile
+!Makefile
+!.keep
+!.gitignore
